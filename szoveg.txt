@@ -1,0 +1,82 @@
+R1#show running-config
+Building configuration...
+
+Current configuration : 1024 bytes
+!
+version 12.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$EdFE$rYZEjwT4kXAAcAykMxpPk1
+!
+no aaa new-model
+!
+resource policy
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+ip subnet-zero
+ip cef
+!
+!
+no ip dhcp use vrf connected
+!
+!
+no ip domain lookup
+ip domain name wmtech.hu
+!
+username admin password 0 cisco1234
+!
+!
+!
+interface FastEthernet0/0
+ ip address 192.168.6.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ ip address 192.168.5.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface Serial0/1/0
+ no ip address
+ shutdown
+ no fair-queue
+ clockrate 125000
+!
+interface Serial0/1/1
+ no ip address
+ shutdown
+ clockrate 125000
+!
+ip classless
+!
+ip http server
+!
+!
+control-plane
+!
+!
+line con 0
+ login local
+line aux 0
+line vty 0 4
+ login local
+ transport input telnet
+line vty 5 15
+ login local
+ transport input telnet
+!
+warm-reboot
+end
+
+R1#
